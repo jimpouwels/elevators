@@ -1,11 +1,13 @@
 package nl.pouwels.elevators.ui;
 
 import nl.pouwels.elevators.Elevator;
-import nl.pouwels.gameengine.Color;
 import nl.pouwels.gameengine.Engine;
 import nl.pouwels.gameengine.FrameHandler;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ElevatorsSimulation implements FrameHandler {
 
@@ -13,30 +15,32 @@ public class ElevatorsSimulation implements FrameHandler {
     private static final int HEIGHT = 250;
     private static final int PIXEL_SIZE = 3;
     private static final int FPS = 60;
-    private static Engine engine;
-    private Elevator elevator;
+    private final List<Elevator> elevators = new ArrayList<>();
+    private Engine engine;
 
     public void runGame() {
         engine = new Engine(WIDTH, HEIGHT, PIXEL_SIZE, FPS, this);
-        ElevatorUiComponent physicalElevator = new ElevatorUiComponent(engine);
-        elevator = new Elevator(physicalElevator);
+        for (int i = 0; i < 3; i++) {
+            ElevatorUiComponent physicalElevator = new ElevatorUiComponent(engine, i * 40, 0);
+            elevators.add(new Elevator(physicalElevator));
+        }
         engine.startGameLoop();
     }
 
     @Override
     public void handleFrame(long elapsedTime, long currentTime) {
         resetScreen();
-        ((ElevatorUiComponent) elevator.getPhysicalElevator()).draw(currentTime);
+        elevators.forEach(e -> ((ElevatorUiComponent) e.getPhysicalElevator()).draw(currentTime));
     }
 
     @Override
     public void onKeyPressed(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                elevator.open();
+                elevators.forEach(Elevator::open);
                 break;
             case KeyEvent.VK_DOWN:
-                elevator.close();
+                elevators.forEach(Elevator::close);
                 break;
         }
     }
@@ -48,7 +52,7 @@ public class ElevatorsSimulation implements FrameHandler {
     private void resetScreen() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                engine.drawPixel(x, y, new Color(0, 0, 0));
+                engine.drawPixel(x, y, Color.BLACK);
             }
         }
     }

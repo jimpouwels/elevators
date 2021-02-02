@@ -55,8 +55,8 @@ public class Engine extends JPanel implements KeyListener {
         g2.drawImage(gameCanvas, imageSpaceTran, null);
     }
 
-    public void drawPixel(int x, int y, nl.pouwels.gameengine.Color color) {
-        drawPixel(gameCanvas, x, y, color);
+    public void drawPixel(int x, int y, java.awt.Color color) {
+        drawPixel(gameCanvas, x, y, new Color(color.getRed(), color.getBlue(), color.getGreen()));
     }
 
     private void drawPixel(BufferedImage canvas, int x, int y, nl.pouwels.gameengine.Color color) {

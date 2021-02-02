@@ -3,23 +3,27 @@ package nl.pouwels.elevators.ui;
 import nl.pouwels.elevators.DoorStatus;
 import nl.pouwels.elevators.Elevator;
 import nl.pouwels.elevators.PhysicalElevator;
-import nl.pouwels.gameengine.Color;
 import nl.pouwels.gameengine.Drawable;
 import nl.pouwels.gameengine.Engine;
 
+import java.awt.*;
 import java.time.Instant;
 
 public class ElevatorUiComponent implements PhysicalElevator, Drawable {
 
     private static final double MILLIS_TO_OPEN_OR_CLOSE = 1000;
-    private static final int DOOR_HEIGHT = 100;
-    private static final int DOOR_WIDTH = 100;
+    private static final int DOOR_HEIGHT = 50;
+    private static final int DOOR_WIDTH = 12;
+    private final Engine engine;
+    private int offSetX;
+    private int offSetY;
     private long timer;
-    private Engine engine;
     private Elevator elevator;
 
-    public ElevatorUiComponent(Engine engine) {
+    public ElevatorUiComponent(Engine engine, int offSetX, int offSetY) {
         this.engine = engine;
+        this.offSetX = offSetX;
+        this.offSetY = offSetY;
     }
 
     @Override
@@ -82,14 +86,14 @@ public class ElevatorUiComponent implements PhysicalElevator, Drawable {
     }
 
     private void drawRightDoor(Engine engine, int doorWidth) {
-        int offsetX = DOOR_WIDTH + (DOOR_WIDTH - doorWidth);
-        drawDoor(engine, doorWidth, offsetX);
+        int rightDoorOffsetX = DOOR_WIDTH + (DOOR_WIDTH - doorWidth);
+        drawDoor(engine, doorWidth, rightDoorOffsetX);
     }
 
-    private void drawDoor(Engine engine, int doorWidth, int offsetX) {
+    private void drawDoor(Engine engine, int doorWidth, int rightDoorOffsetX) {
         for (int x = 0; x < doorWidth; x++) {
             for (int y = 0; y < DOOR_HEIGHT; y++) {
-                engine.drawPixel(x + offsetX, y, new Color(0, 190, 0));
+                engine.drawPixel(x + rightDoorOffsetX + offSetX, y + offSetY, Color.GRAY);
             }
         }
     }
