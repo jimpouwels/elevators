@@ -2,9 +2,7 @@ package nl.pouwels.elevators;
 
 public class Elevator {
 
-    private boolean isOpen;
-    private boolean isOpening;
-    private boolean isClosing;
+    private DoorStatus doorStatus = DoorStatus.CLOSED;
     private PhysicalElevator physicalElevator;
 
     public Elevator(PhysicalElevator physicalElevator) {
@@ -17,38 +15,36 @@ public class Elevator {
     }
 
     public void open() {
-        if (!(isOpen || isOpening)) {
-            isOpening = true;
+        if (doorStatus == DoorStatus.CLOSED) {
+            doorStatus = DoorStatus.OPENING;
             physicalElevator.open();
         }
     }
 
     public void close() {
-        if (isOpen && !isClosing) {
-            isClosing = true;
+        if (doorStatus == DoorStatus.OPEN) {
+            doorStatus = DoorStatus.CLOSING;
             physicalElevator.close();
         }
     }
 
     public boolean isOpen() {
-        return isOpen;
-    }
-
-    public boolean isOpening() {
-        return isOpening;
+        return doorStatus == DoorStatus.OPEN;
     }
 
     public boolean isClosing() {
-        return isClosing;
+        return doorStatus == DoorStatus.CLOSING;
     }
 
-    public void onDoorOpened() {
-        isOpen = true;
-        isOpening = false;
+    public boolean isOpening() {
+        return doorStatus == DoorStatus.OPENING;
     }
 
-    public void onDoorClosed() {
-        isOpen = false;
-        isClosing = false;
+    public DoorStatus getDoorStatus() {
+        return doorStatus;
+    }
+
+    public void onDoorStatusChanged(DoorStatus doorStatus) {
+        this.doorStatus = doorStatus;
     }
 }
