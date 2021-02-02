@@ -38,27 +38,29 @@ public class ElevatorUiComponent implements PhysicalElevator {
     }
 
     private void drawDoors(Engine engine, long currentTime) {
-        int doorWidth = elevator.isOpen() ? 0 : DOOR_WIDTH;
+        int doorWidth = getDoorWidthBasedOnState();
         if (elevator.isOpening() || elevator.isClosing()) {
             long elapsedTimeSinceTimer = currentTime - timer;
 
             double doorStateChangePercentageCompleted = elapsedTimeSinceTimer / MILLIS_TO_OPEN_OR_CLOSE;
-            if (elevator.isOpening()) {
-                doorWidth = (int) ((DOOR_WIDTH) * (1 - doorStateChangePercentageCompleted));
-                if (doorStateChangePercentageCompleted >= 1) {
-                    elevator.onDoorStatusChanged(DoorStatus.OPEN);
-                    doorWidth = 0;
-                }
-            } else if (elevator.isClosing()) {
-                doorWidth = (int) ((DOOR_WIDTH) * doorStateChangePercentageCompleted);
-                if (doorStateChangePercentageCompleted >= 1) {
-                    elevator.onDoorStatusChanged(DoorStatus.CLOSED);
-                    doorWidth = DOOR_WIDTH;
+            if (doorStateChangePercentageCompleted >= 1) {
+                elevator.onDoorStatusChanged(elevator.isOpening() ? DoorStatus.OPEN : DoorStatus.CLOSED);
+                doorWidth = getDoorWidthBasedOnState();
+            } else {
+                if (elevator.isOpening()) {
+                    doorWidth = (int) ((DOOR_WIDTH) * (1 - doorStateChangePercentageCompleted));
+                } else if (elevator.isClosing()) {
+                    doorWidth = (int) ((DOOR_WIDTH) * doorStateChangePercentageCompleted);
+
                 }
             }
         }
         drawLeftDoor(engine, doorWidth);
         drawRightDoor(engine, doorWidth);
+    }
+
+    private int getDoorWidthBasedOnState() {
+        return elevator.isOpen() ? 0 : DOOR_WIDTH;
     }
 
     private void drawLeftDoor(Engine engine, int doorWidth) {
