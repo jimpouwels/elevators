@@ -80,7 +80,6 @@ public class ElevatorUiComponent implements PhysicalElevator {
     private void drawRightDoor(Engine engine, int doorWidth) {
         int xDelta = DOOR_WIDTH + (DOOR_WIDTH - doorWidth);
         drawDoor(engine, doorWidth, xDelta);
-
     }
 
     private void drawDoor(Engine engine, int doorWidth, int xDelta) {
