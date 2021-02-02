@@ -11,9 +11,9 @@ import java.time.Instant;
 
 public class ElevatorUiComponent implements PhysicalElevator, Drawable {
 
+    public static final int DOOR_HEIGHT = 50;
+    public static final int DOOR_WIDTH = 12;
     private static final double MILLIS_TO_OPEN_OR_CLOSE = 1000;
-    private static final int DOOR_HEIGHT = 50;
-    private static final int DOOR_WIDTH = 12;
     private final Engine engine;
     private int offSetX;
     private int offSetY;

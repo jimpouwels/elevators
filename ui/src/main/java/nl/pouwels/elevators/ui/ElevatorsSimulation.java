@@ -20,10 +20,7 @@ public class ElevatorsSimulation implements FrameHandler {
 
     public void runGame() {
         engine = new Engine(WIDTH, HEIGHT, PIXEL_SIZE, FPS, this);
-        for (int i = 0; i < 3; i++) {
-            ElevatorUiComponent physicalElevator = new ElevatorUiComponent(engine, i * 40, 0);
-            elevators.add(new Elevator(physicalElevator));
-        }
+        renderFloor(3);
         engine.startGameLoop();
     }
 
@@ -54,6 +51,17 @@ public class ElevatorsSimulation implements FrameHandler {
             for (int y = 0; y < HEIGHT; y++) {
                 engine.drawPixel(x, y, Color.BLACK);
             }
+        }
+    }
+
+    private void renderFloor(int elevatorCount) {
+        int margin = 10;
+        int spaceBetweenElevators = (WIDTH - (margin * 2) - (elevatorCount * (ElevatorUiComponent.DOOR_WIDTH * 2))) / 4;
+        int offsetX = margin + spaceBetweenElevators;
+        for (int i = 0; i < elevatorCount; i++) {
+            ElevatorUiComponent physicalElevator = new ElevatorUiComponent(engine, i + offsetX, margin);
+            elevators.add(new Elevator(physicalElevator));
+            offsetX += spaceBetweenElevators + (ElevatorUiComponent.DOOR_WIDTH * 2);
         }
     }
 }
