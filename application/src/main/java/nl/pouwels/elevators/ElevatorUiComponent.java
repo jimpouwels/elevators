@@ -74,17 +74,19 @@ public class ElevatorUiComponent implements PhysicalElevator {
     }
 
     private void drawLeftDoor(Engine engine, int doorWidth) {
-        for (int x = 0; x < doorWidth; x++) {
-            for (int y = 0; y < DOOR_HEIGHT; y++) {
-                engine.drawPixel(x, y, new Color(0, 190, 0));
-            }
-        }
+        drawDoor(engine, doorWidth, 0);
     }
 
     private void drawRightDoor(Engine engine, int doorWidth) {
+        int xDelta = DOOR_WIDTH + (DOOR_WIDTH - doorWidth);
+        drawDoor(engine, doorWidth, xDelta);
+
+    }
+
+    private void drawDoor(Engine engine, int doorWidth, int xDelta) {
         for (int x = 0; x < doorWidth; x++) {
             for (int y = 0; y < DOOR_HEIGHT; y++) {
-                engine.drawPixel(x + DOOR_WIDTH + (DOOR_WIDTH - doorWidth), y, new Color(0, 190, 0));
+                engine.drawPixel(x + xDelta, y, new Color(0, 190, 0));
             }
         }
     }
