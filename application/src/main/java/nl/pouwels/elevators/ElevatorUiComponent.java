@@ -38,29 +38,39 @@ public class ElevatorUiComponent implements PhysicalElevator {
     }
 
     private void drawDoors(Engine engine, long currentTime) {
-        int doorWidth = getDoorWidthBasedOnState();
-        if (elevator.isOpening() || elevator.isClosing()) {
-            long elapsedTimeSinceTimer = currentTime - timer;
-
-            double doorStateChangePercentageCompleted = elapsedTimeSinceTimer / MILLIS_TO_OPEN_OR_CLOSE;
-            if (doorStateChangePercentageCompleted >= 1) {
-                elevator.onDoorStatusChanged(elevator.isOpening() ? DoorStatus.OPEN : DoorStatus.CLOSED);
-                doorWidth = getDoorWidthBasedOnState();
-            } else {
-                if (elevator.isOpening()) {
-                    doorWidth = (int) ((DOOR_WIDTH) * (1 - doorStateChangePercentageCompleted));
-                } else if (elevator.isClosing()) {
-                    doorWidth = (int) ((DOOR_WIDTH) * doorStateChangePercentageCompleted);
-
-                }
-            }
-        }
+        int doorWidth = getDoorWidthBasedOnState(currentTime);
         drawLeftDoor(engine, doorWidth);
         drawRightDoor(engine, doorWidth);
     }
 
-    private int getDoorWidthBasedOnState() {
+    private int getDoorWidthBasedOnState(long currentTime) {
+        int doorWidth = getWidthForOpenOrClosedDoor();
+        if (elevator.isOpening() || elevator.isClosing()) {
+            doorWidth = getWidthForOpeningOrClosingDoor(currentTime);
+        }
+        return doorWidth;
+    }
+
+    private int getWidthForOpenOrClosedDoor() {
         return elevator.isOpen() ? 0 : DOOR_WIDTH;
+    }
+
+    private int getWidthForOpeningOrClosingDoor(long currentTime) {
+        int doorWidth = -1;
+        long elapsedTimeSinceTimer = currentTime - timer;
+        double doorStateChangePercentageCompleted = elapsedTimeSinceTimer / MILLIS_TO_OPEN_OR_CLOSE;
+        if (doorStateChangePercentageCompleted >= 1) {
+            elevator.onDoorStatusChanged(elevator.isOpening() ? DoorStatus.OPEN : DoorStatus.CLOSED);
+            doorWidth = getWidthForOpenOrClosedDoor();
+        } else {
+            if (elevator.isOpening()) {
+                doorWidth = (int) ((DOOR_WIDTH) * (1 - doorStateChangePercentageCompleted));
+            } else if (elevator.isClosing()) {
+                doorWidth = (int) ((DOOR_WIDTH) * doorStateChangePercentageCompleted);
+
+            }
+        }
+        return doorWidth;
     }
 
     private void drawLeftDoor(Engine engine, int doorWidth) {
