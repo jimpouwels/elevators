@@ -42,12 +42,12 @@ public class Elevator {
         return isClosing;
     }
 
-    public void onOpenComplete() {
+    public void onDoorOpened() {
         isOpen = true;
         isOpening = false;
     }
 
-    public void onCloseComplete() {
+    public void onDoorClosed() {
         isOpen = false;
         isClosing = false;
     }

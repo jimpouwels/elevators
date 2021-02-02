@@ -46,13 +46,13 @@ public class ElevatorUiComponent implements PhysicalElevator {
             if (elevator.isOpening()) {
                 doorWidth = (int) ((DOOR_WIDTH) * (1 - elapsedTimePercentage));
                 if (elapsedTimePercentage >= 1) {
-                    elevator.onOpenComplete();
+                    elevator.onDoorOpened();
                     doorWidth = 0;
                 }
             } else if (elevator.isClosing()) {
                 doorWidth = (int) ((DOOR_WIDTH) * elapsedTimePercentage);
                 if (elapsedTimePercentage >= 1) {
-                    elevator.onCloseComplete();
+                    elevator.onDoorClosed();
                     doorWidth = DOOR_WIDTH;
                 }
             }
