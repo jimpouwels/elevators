@@ -1,0 +1,10 @@
+apply plugin: "java"
+
+group = "com.pouwels.elevators"
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repository.cloudera.com/artifactory/cloudera-repos/"
+    }
+}

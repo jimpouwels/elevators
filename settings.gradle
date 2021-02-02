@@ -1,0 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2019. All right reserved.
+ */
+
+rootProject.name = "elevators"
+
+include ":application"
+include ":pixel-game-engine"
+include ":elevators"
+
