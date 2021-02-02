@@ -1,11 +1,15 @@
-package nl.pouwels.elevators;
+package nl.pouwels.elevators.ui;
 
-import nl.pouwels.elevators.ui.Color;
-import nl.pouwels.elevators.ui.Engine;
+import nl.pouwels.elevators.DoorStatus;
+import nl.pouwels.elevators.Elevator;
+import nl.pouwels.elevators.PhysicalElevator;
+import nl.pouwels.gameengine.Color;
+import nl.pouwels.gameengine.Drawable;
+import nl.pouwels.gameengine.Engine;
 
 import java.time.Instant;
 
-public class ElevatorUiComponent implements PhysicalElevator {
+public class ElevatorUiComponent implements PhysicalElevator, Drawable {
 
     private static final double MILLIS_TO_OPEN_OR_CLOSE = 1000;
     private static final int DOOR_HEIGHT = 100;

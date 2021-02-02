@@ -2,8 +2,8 @@ package nl.pouwels.elevators;
 
 public class Elevator {
 
+    private final PhysicalElevator physicalElevator;
     private DoorStatus doorStatus = DoorStatus.CLOSED;
-    private PhysicalElevator physicalElevator;
 
     public Elevator(PhysicalElevator physicalElevator) {
         this.physicalElevator = physicalElevator;

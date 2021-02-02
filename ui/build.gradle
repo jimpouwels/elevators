@@ -13,6 +13,5 @@ repositories {
 
 dependencies {
     implementation project(":elevators")
-    implementation project(":ui")
     implementation project(":pixel-game-engine")
 }

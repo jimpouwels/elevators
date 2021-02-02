@@ -1,4 +1,4 @@
-package nl.pouwels.elevators.ui;
+package nl.pouwels.gameengine;
 
 public class Color {
     public int r;

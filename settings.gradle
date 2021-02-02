@@ -7,4 +7,5 @@ rootProject.name = "elevators"
 include ":application"
 include ":pixel-game-engine"
 include ":elevators"
+include ":ui"
 

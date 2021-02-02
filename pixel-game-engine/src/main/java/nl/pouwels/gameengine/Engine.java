@@ -1,4 +1,4 @@
-package nl.pouwels.elevators.ui;
+package nl.pouwels.gameengine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,11 +55,11 @@ public class Engine extends JPanel implements KeyListener {
         g2.drawImage(gameCanvas, imageSpaceTran, null);
     }
 
-    public void drawPixel(int x, int y, Color color) {
+    public void drawPixel(int x, int y, nl.pouwels.gameengine.Color color) {
         drawPixel(gameCanvas, x, y, color);
     }
 
-    private void drawPixel(BufferedImage canvas, int x, int y, Color color) {
+    private void drawPixel(BufferedImage canvas, int x, int y, nl.pouwels.gameengine.Color color) {
         int rgb = toRgb(color);
         canvas.setRGB(x, y, rgb);
     }
