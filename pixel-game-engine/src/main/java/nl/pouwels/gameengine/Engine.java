@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.time.Instant;
 
-public class Engine extends JPanel implements KeyListener {
+public class Engine extends JPanel implements KeyListener, MouseListener {
 
     private final BufferedImage gameCanvas;
     private final int millisPerFrame;
@@ -29,6 +31,7 @@ public class Engine extends JPanel implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
         gameCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        addMouseListener(this);
     }
 
     public void startGameLoop() {
@@ -81,7 +84,6 @@ public class Engine extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -91,6 +93,26 @@ public class Engine extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        frameHandler.onKeyReleased(e.getKeyCode());
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        frameHandler.onMouseClicked(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

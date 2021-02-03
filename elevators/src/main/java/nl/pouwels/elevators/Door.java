@@ -2,19 +2,22 @@ package nl.pouwels.elevators;
 
 import nl.pouwels.elevators.hardware.PhysicalDoor;
 
+import java.awt.*;
+
 public class Door {
 
     private final PhysicalDoor physicalDoor;
-
+    private Button button;
     private DoorStatus doorStatus = DoorStatus.CLOSED;
+
+    public Door(PhysicalDoor physicalDoor, Button button) {
+        this.physicalDoor = physicalDoor;
+        this.button = button;
+        physicalDoor.subscribe(this);
+    }
 
     public PhysicalDoor getPhysicalDoor() {
         return physicalDoor;
-    }
-
-    public Door(PhysicalDoor physicalDoor) {
-        this.physicalDoor = physicalDoor;
-        physicalDoor.subscribe(this);
     }
 
     public void open() {

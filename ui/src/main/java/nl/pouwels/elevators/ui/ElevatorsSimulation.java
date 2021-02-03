@@ -45,7 +45,10 @@ public class ElevatorsSimulation implements FrameHandler {
     }
 
     @Override
-    public void onKeyReleased(int keyCode) {
+    public void onMouseClicked(int x, int y) {
+        for (ClickableUiComponent clickableUiComponent : UiComponentRegistry.getClickableUiComponents()) {
+            clickableUiComponent.isClicked(x - clickableUiComponent.getX(), y - clickableUiComponent.getY());
+        }
     }
 
     private void resetScreen() {
@@ -61,8 +64,7 @@ public class ElevatorsSimulation implements FrameHandler {
         int spaceBetweenElevators = (WIDTH - (margin * 2) - (elevatorCount * (DoorUiComponent.DOOR_WIDTH * 2))) / 4;
         int offsetX = margin + spaceBetweenElevators;
         for (int i = 0; i < elevatorCount; i++) {
-            DoorUiComponent physicalDoor = new DoorUiComponent(engine, i + offsetX, margin);
-            doors.add(new Door(physicalDoor));
+            doors.add(EntityFactory.createDoor(engine, i + offsetX, margin));
             offsetX += spaceBetweenElevators + (DoorUiComponent.DOOR_WIDTH * 2);
         }
     }
