@@ -1,10 +1,8 @@
-package nl.pouwels.elevators;
+package nl.pouwels.elevators.hardware;
+
+import nl.pouwels.elevators.Elevator;
 
 public interface PhysicalElevator {
 
     void subscribe(Elevator elevator);
-
-    void open();
-
-    void close();
 }

@@ -1,5 +1,6 @@
 package nl.pouwels.elevators.ui;
 
+import nl.pouwels.elevators.Door;
 import nl.pouwels.elevators.Elevator;
 import nl.pouwels.gameengine.Engine;
 import nl.pouwels.gameengine.FrameHandler;
@@ -16,6 +17,7 @@ public class ElevatorsSimulation implements FrameHandler {
     private static final int PIXEL_SIZE = 3;
     private static final int FPS = 60;
     private final List<Elevator> elevators = new ArrayList<>();
+    private final List<Door> doors = new ArrayList<>();
     private Engine engine;
 
     public void runGame() {
@@ -27,17 +29,17 @@ public class ElevatorsSimulation implements FrameHandler {
     @Override
     public void handleFrame(long elapsedTime, long currentTime) {
         resetScreen();
-        elevators.forEach(e -> ((ElevatorUiComponent) e.getPhysicalElevator()).draw(currentTime));
+        doors.forEach(e -> ((DoorUiComponent) e.getPhysicalDoor()).draw(currentTime));
     }
 
     @Override
     public void onKeyPressed(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                elevators.forEach(Elevator::open);
+                doors.forEach(Door::open);
                 break;
             case KeyEvent.VK_DOWN:
-                elevators.forEach(Elevator::close);
+                doors.forEach(Door::close);
                 break;
         }
     }
@@ -56,12 +58,12 @@ public class ElevatorsSimulation implements FrameHandler {
 
     private void renderFloor(int elevatorCount) {
         int margin = 10;
-        int spaceBetweenElevators = (WIDTH - (margin * 2) - (elevatorCount * (ElevatorUiComponent.DOOR_WIDTH * 2))) / 4;
+        int spaceBetweenElevators = (WIDTH - (margin * 2) - (elevatorCount * (DoorUiComponent.DOOR_WIDTH * 2))) / 4;
         int offsetX = margin + spaceBetweenElevators;
         for (int i = 0; i < elevatorCount; i++) {
-            ElevatorUiComponent physicalElevator = new ElevatorUiComponent(engine, i + offsetX, margin);
-            elevators.add(new Elevator(physicalElevator));
-            offsetX += spaceBetweenElevators + (ElevatorUiComponent.DOOR_WIDTH * 2);
+            DoorUiComponent physicalDoor = new DoorUiComponent(engine, i + offsetX, margin);
+            doors.add(new Door(physicalDoor));
+            offsetX += spaceBetweenElevators + (DoorUiComponent.DOOR_WIDTH * 2);
         }
     }
 }
