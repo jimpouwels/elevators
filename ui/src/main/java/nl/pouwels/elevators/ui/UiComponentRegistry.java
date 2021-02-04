@@ -1,5 +1,8 @@
 package nl.pouwels.elevators.ui;
 
+import nl.pouwels.gameengine.ClickableUiComponent;
+import nl.pouwels.gameengine.UiComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

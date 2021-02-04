@@ -4,6 +4,7 @@ import nl.pouwels.elevators.Door;
 import nl.pouwels.elevators.DoorStatus;
 import nl.pouwels.elevators.hardware.PhysicalDoor;
 import nl.pouwels.gameengine.Engine;
+import nl.pouwels.gameengine.UiComponent;
 
 import java.awt.*;
 import java.time.Instant;
@@ -26,6 +27,9 @@ public class DoorUiComponent extends UiComponent implements PhysicalDoor {
     @Override
     public void draw(long currentTime) {
         drawDoors(currentTime);
+        for (UiComponent child : getChildren()) {
+            child.draw(currentTime);
+        }
     }
 
     @Override
@@ -36,6 +40,21 @@ public class DoorUiComponent extends UiComponent implements PhysicalDoor {
     @Override
     public void close() {
         this.timer = Instant.now().toEpochMilli();
+    }
+
+    @Override
+    public int getFullWidth() {
+        return DOOR_WIDTH * 2;
+    }
+
+    @Override
+    public int getFullHeight() {
+        return DOOR_HEIGHT;
+    }
+
+    @Override
+    public void onChildClicked(UiComponent uiComponent) {
+        door.open();
     }
 
     private void drawDoors(long currentTime) {
@@ -86,7 +105,7 @@ public class DoorUiComponent extends UiComponent implements PhysicalDoor {
     private void drawDoor(int doorWidth, int doorOffsetX) {
         for (int x = 0; x < doorWidth; x++) {
             for (int y = 0; y < DOOR_HEIGHT; y++) {
-                drawPixel(getX() + doorOffsetX + x, getY() + y, Color.GRAY);
+                drawPixel(getPositionX() + doorOffsetX + x, getPositionY() + y, Color.GRAY);
             }
         }
     }

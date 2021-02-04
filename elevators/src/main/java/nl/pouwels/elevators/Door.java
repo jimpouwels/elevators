@@ -2,15 +2,16 @@ package nl.pouwels.elevators;
 
 import nl.pouwels.elevators.hardware.PhysicalDoor;
 
-import java.awt.*;
+import java.time.Instant;
 
 public class Door {
 
+    private static final int DOOR_OPEN_TIME_IN_MILLIS = 3000;
     private final PhysicalDoor physicalDoor;
-    private Button button;
+    private FloorButton button;
     private DoorStatus doorStatus = DoorStatus.CLOSED;
 
-    public Door(PhysicalDoor physicalDoor, Button button) {
+    public Door(PhysicalDoor physicalDoor, FloorButton button) {
         this.physicalDoor = physicalDoor;
         this.button = button;
         physicalDoor.subscribe(this);
@@ -52,5 +53,18 @@ public class Door {
 
     public void onDoorStatusChanged(DoorStatus doorStatus) {
         this.doorStatus = doorStatus;
+        if (doorStatus == DoorStatus.OPEN) {
+            long openTime = Instant.now().toEpochMilli();
+            Runnable runnable = () -> {
+                while ((Instant.now().toEpochMilli() - openTime) <= DOOR_OPEN_TIME_IN_MILLIS) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                close();
+            };
+            runnable.run();
+        }
     }
 }

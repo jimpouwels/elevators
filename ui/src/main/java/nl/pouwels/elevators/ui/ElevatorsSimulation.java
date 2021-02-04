@@ -2,11 +2,11 @@ package nl.pouwels.elevators.ui;
 
 import nl.pouwels.elevators.Door;
 import nl.pouwels.elevators.Elevator;
+import nl.pouwels.gameengine.ClickableUiComponent;
 import nl.pouwels.gameengine.Engine;
 import nl.pouwels.gameengine.FrameHandler;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,20 +34,14 @@ public class ElevatorsSimulation implements FrameHandler {
 
     @Override
     public void onKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                doors.forEach(Door::open);
-                break;
-            case KeyEvent.VK_DOWN:
-                doors.forEach(Door::close);
-                break;
-        }
     }
 
     @Override
     public void onMouseClicked(int x, int y) {
         for (ClickableUiComponent clickableUiComponent : UiComponentRegistry.getClickableUiComponents()) {
-            clickableUiComponent.isClicked(x - clickableUiComponent.getX(), y - clickableUiComponent.getY());
+            if (clickableUiComponent.isClicked(x, y)) {
+                clickableUiComponent.onClick(x - clickableUiComponent.getPositionX(), y - clickableUiComponent.getPositionY());
+            }
         }
     }
 

@@ -97,7 +97,7 @@ public class Engine extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        frameHandler.onMouseClicked(e.getX(), e.getY());
+        frameHandler.onMouseClicked(e.getX() / pixelSize, e.getY() / pixelSize);
     }
 
     @Override
